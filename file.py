@@ -40,7 +40,7 @@ def sums_of_str_elements_are_equal(func_to_be_decorated):
 
 def format_output(*new_keys):
     def inner(func_to_be_decorated):
-        def decoration():
+        def decoration(*args, **kwargs):
             result_dict = func_to_be_decorated()
             
             output_dict = {}
@@ -60,7 +60,7 @@ def format_output(*new_keys):
 
 def add_method_to_instance(class_name):
     def inner(method_name):
-        def decorator():
+        def decorator(*args):
             return method_name()
         
         setattr(class_name, method_name.__name__, decorator)
