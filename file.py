@@ -38,9 +38,31 @@ def sums_of_str_elements_are_equal(func_to_be_decorated):
     return decoration
 
 
-def format_output(*required_keys):
-    pass
+def format_output(*new_keys):
+    def inner(func_to_be_decorated):
+        def decoration():
+            result_dict = func_to_be_decorated()
+            
+            output_dict = {}
+            for x in new_keys:
+                temp_list = []
+                for y in x.split("__"):
+                    if y in result_dict.keys():
+                        temp_list.append(result_dict[y])
+                    else:
+                        raise ValueError("Nope")
+                output_dict[x] = " ".join(temp_list)
+            
+            return output_dict
+        return decoration
+    return inner
 
 
-def add_method_to_instance(klass):
-    pass
+def add_method_to_instance(class_name):
+    def inner(method_name):
+        def decorator():
+            return method_name()
+        
+        setattr(class_name, method_name.__name__, decorator)
+        return decorator
+    return inner
