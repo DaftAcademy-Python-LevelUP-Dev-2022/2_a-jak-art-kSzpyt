@@ -40,15 +40,19 @@ def sums_of_str_elements_are_equal(func_to_be_decorated):
 
 def format_output(*new_keys):
     def inner(func_to_be_decorated):
-        def decoration(*args, **kwargs):
-            result_dict = func_to_be_decorated()
+        def decoration(*args):
+            result_dict = func_to_be_decorated(*args)
             
             output_dict = {}
             for x in new_keys:
                 temp_list = []
                 for y in x.split("__"):
                     if y in result_dict.keys():
-                        temp_list.append(result_dict[y])
+                        if result_dict[y] == "":
+                            ttt = "Empty value"
+                        else:
+                            ttt = result_dict[y]
+                        temp_list.append(ttt)
                     else:
                         raise ValueError("Nope")
                 output_dict[x] = " ".join(temp_list)
